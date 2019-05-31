@@ -1,0 +1,23 @@
+
+spring:
+  datasource:
+    #连接MySQL
+    url: jdbc:sqlserver://106.12.40.60:1433;DatabaseName=CSS
+    username: sa
+    password: Zch825436420**
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+
+
+mybatis:
+  configuration:
+    #配置项：开启下划线到驼峰的自动转换. 作用：将数据库字段根据驼峰规则自动注入到对象属性。
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    #打印SQL信息
+    com.macro.adient.mapper: debug

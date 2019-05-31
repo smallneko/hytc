@@ -1,0 +1,70 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=8,IE=9,IE=10" />
+    <title>人员管理</title>
+    <link rel="stylesheet" type="text/css" href="easyui/themes/default/easyui.css" />
+    <link rel="stylesheet" type="text/css" href="easyui/themes/icon.css" />
+    <script type="text/javascript" src="jquery/jquery-3.4.0.min.js"></script>
+    <script type="text/javascript" src="easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<table id="dg" class="easyui-datagrid">
+    <thead>
+    <tr>
+        <th data-options="field:'id',sortable:true,width:'120px',hidden:true"></th>
+        <th data-options="field:'uuid',width:'150px',align:'center'">用户ID</th>
+        <th data-options="field:'password',width:'150px',hidden:true">密码</th>
+        <th data-options="field:'comp_code',width:'150px',align:'center',formatter:getCompCode">公司编号</th>
+        <th data-options="field:'compAccount',width:'150px',align:'center'">公司账号</th>
+        <th data-options="field:'telephone',width:'150px',align:'center'">电话</th>
+        <th data-options="field:'enabled',width:'150px',align:'center',formatter:getStatus">状态</th>
+        <th data-options="field:'create_time',width:'200px',align:'center',formatter:getCreateTime">创建时间</th>
+    </tr>
+    </thead>
+</table>
+<script>
+    function getCompCode(val,row) {
+        var compCode = row.compCode;
+        return compCode.toString();
+    }
+
+    function getStatus(val,row) {
+        if (row.enabled){
+            return "启用（T）";
+        } else {
+            return "未启用（F）";
+        }
+    }
+
+    function getCreateTime(val,row) {
+        var createTime = row.createTime;
+        return createTime.toString().substring(0,10);
+    }
+
+
+
+</script>
+</body>
+<script>
+    $(function(){
+        $('#dg').datagrid({
+            url: '/user/queryUserByArray',//后台返回数据的请求url
+            title: "用户管理",
+            idField: 'id',
+            loadMsg: 'please wait',
+            singleSelect: true,
+            rownumbers: true,
+            pagination: true
+        });
+        var p = $('#dg').datagrid('getPager'); //获取page对象
+        $(p).pagination({
+            pageSize: 10,//每页显示的记录条数，默认为10
+            pageList: [10,20,30],//可以设置每页记录条数的列表
+            beforePageText: '第',//页数文本框前显示的文字
+            afterPageText: '页    共 {pages} 页',  //pages为默认的参数吗，代表总页数
+            displayMsg: '当前显示 {from} - {to} 条记录   共 {total} 条记录'// from，to , total均为默认参数名，from, to 代表现在是总记录中的第几条到第几条，tatal代表总记录数
+        });
+    });
+</script>
+</html>
